@@ -25,11 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-          <p><strong>Participants:</strong> ${
-            Array.isArray(details.participants) && details.participants.length > 0
-              ? details.participants.join(", ")
-              : "No participants yet"
-          }</p>
+          <p><strong>Participants:</strong></p>
+          ${createParticipantsComponent(details.participants)}
         `;
 
         activitiesList.appendChild(activityCard);
@@ -44,6 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
       console.error("Error fetching activities:", error);
     }
+  }
+
+  // Function to create a participant component
+  function createParticipantsComponent(participants) {
+    if (!Array.isArray(participants) || participants.length === 0) {
+      return "<p>No participants yet</p>";
+    }
+
+    return `
+      <div class="participants-container">
+        ${participants.map(participant => `<span class="participant">${participant}</span>`).join("")}
+      </div>
+    `;
   }
 
   // Handle form submission
